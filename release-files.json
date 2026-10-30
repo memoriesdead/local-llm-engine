@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "size": 71,
+      "sha256": "fd534920426b4e86d18e815d36b5bd9f768f07756041af0c03357871543a4351"
+    },
+    {
+      "path": ".gitignore",
+      "size": 200,
+      "sha256": "ecf6b727069bdfd82007139b16bf8676faa9369c4c19183716abef3aab6b0e01"
+    },
+    {
+      "path": "LICENSE",
+      "size": 11558,
+      "sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6"
+    },
+    {
+      "path": "LICENSES.md",
+      "size": 689,
+      "sha256": "c3f7f705cc51dc474edd4c4e59e382bb06325ab7227d7b17ebe54857a57c076b"
+    },
+    {
+      "path": "README.md",
+      "size": 2271,
+      "sha256": "e0b24f5908dce7f03542ab8a25f26d98a9fe21e704f3acd56fa2576f6f4f736a"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "size": 806,
+      "sha256": "844e8258d33b138c182bac77522e382e2f70e6792bc5f22d4d2cb0502cd133be"
+    },
+    {
+      "path": "backends/llama-cpp/LICENSE",
+      "size": 1078,
+      "sha256": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d"
+    },
+    {
+      "path": "backends/llama-cpp/README.md",
+      "size": 4796,
+      "sha256": "eeb38b711f60dfd0cbd841d49877bced2eab7edaee7fa59d4895439287185449"
+    },
+    {
+      "path": "backends/llama-cpp/backend.json",
+      "size": 782,
+      "sha256": "cd29a54f3e5eefac1ee10cc00aa74f633bd04fed053ea7c7bfde34060628f238"
+    },
+    {
+      "path": "backends/llama-cpp/patches/q4-grouped-decode.patch",
+      "size": 6447,
+      "sha256": "27947dbff581c43b8bb01b2b01396686f7b2eb79b92692d624315e904fc3c115"
+    },
+    {
+      "path": "backends/llama-cpp/tests/test_q4_attention.cpp",
+      "size": 5338,
+      "sha256": "71866a77a8d3d850f006ce1067fce034b98dac1368e78174b31c3bab6c7c2f78"
+    },
+    {
+      "path": "backends/ninfer/LICENSE",
+      "size": 11558,
+      "sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6"
+    },
+    {
+      "path": "backends/ninfer/README.md",
+      "size": 4677,
+      "sha256": "2b0c7b8ff091d14667a15b4074ab361e0685771b39826c7c711ecf6a369c866c"
+    },
+    {
+      "path": "backends/ninfer/THIRD_PARTY_NOTICES.md",
+      "size": 1517,
+      "sha256": "ed1032ab92a7190ab74373e9dfdb3b9744f46c948aa4a7bdcc2382b14005095b"
+    },
+    {
+      "path": "backends/ninfer/backend.json",
+      "size": 892,
+      "sha256": "5008f424146b0e475d9f11c253cab5159bb89ffb6fe5bd3cccc7f4b0a345e611"
+    },
+    {
+      "path": "backends/ninfer/patches/dense-bf16-gather.patch",
+      "size": 21266,
+      "sha256": "1292559d04eacf671800d263e026b7fd4e1f2a1ed42675231dd606dd75a84256"
+    },
+    {
+      "path": "benchmarks/reference.json",
+      "size": 912,
+      "sha256": "538afa1aa5163744baff926b27e45b0f212d2309f755ef3a05207e16f69cca76"
+    },
+    {
+      "path": "tests/test_engine.py",
+      "size": 4046,
+      "sha256": "438ecec9af7e3a41e2c06297ffa7e150019e3b21e358eec4cfbfdcb3288b45e2"
+    },
+    {
+      "path": "tests/test_release_gate.py",
+      "size": 12872,
+      "sha256": "9332d4a6e5f18fc3bf7f8b2e600119fd67f2411a3129ae5c3c2488ddb6389ec0"
+    },
+    {
+      "path": "tools/check_release.py",
+      "size": 16473,
+      "sha256": "8dc7525ac84a3651a29b7ffec75adf198f8b352ec5b3a4324eb0e5cfd410aca7"
+    },
+    {
+      "path": "tools/engine.py",
+      "size": 6686,
+      "sha256": "3010926c4280ead5e39f5d241b54ebed225f8d5765733c6890af337e1961a4aa"
+    }
+  ]
+}

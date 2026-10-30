@@ -1,0 +1,131 @@
+diff --git a/ggml/src/ggml-cpu/ops.cpp b/ggml/src/ggml-cpu/ops.cpp
+index 5735f96..e3d5982 100644
+--- a/ggml/src/ggml-cpu/ops.cpp
++++ b/ggml/src/ggml-cpu/ops.cpp
+@@ -9,6 +9,9 @@
+ #include "vec.h"
+ 
+ #include <algorithm>
++#include <atomic>
++#include <cstdio>
++#include <cstdlib>
+ #include <cfloat>
+ #include <cmath>
+ 
+@@ -9533,6 +9536,80 @@ static void ggml_flash_attn_ext_reduce_partials(
+     }
+ }
+ 
++// Exact q4_0 GQA decode specialization for Qwen's 24 Q / 4 KV heads.
++// Keep each query's original online-softmax order; reuse a V dequantization
++// and the hot K row across its six queries. Other shapes retain the old path.
++static void ggml_compute_forward_flash_attn_ext_q4_qwen(
++        const ggml_compute_params * params, ggml_tensor * dst) {
++    const ggml_tensor * q = dst->src[0];
++    const ggml_tensor * k = dst->src[1];
++    const ggml_tensor * v = dst->src[2];
++    const ggml_tensor * mask = dst->src[3];
++    const ggml_tensor * sinks = dst->src[4];
++    constexpr int D = 256, GROUP = 6;
++    float scale;
++    memcpy(&scale, dst->op_params, sizeof(float));
++    const auto * traits = ggml_get_type_traits_cpu(k->type);
++    const auto q_to_vec_dot = ggml_get_type_traits_cpu(traits->vec_dot_type)->from_float;
++    const auto kq_vec_dot = traits->vec_dot;
++    const auto v_to_float = ggml_get_type_traits(v->type)->to_float;
++    alignas(64) ggml_fp16_t Q_q[GROUP][D];
++    alignas(64) float accum[GROUP][D];
++    alignas(64) float V32[D];
++    float maximum[GROUP], sum[GROUP];
++    const auto * mp = mask ? static_cast<const ggml_fp16_t *>(mask->data) : nullptr;
++    for (int64_t kv_head = params->ith; kv_head < k->ne[2]; kv_head += params->nth) {
++        memset(accum, 0, sizeof(accum));
++        for (int h = 0; h < GROUP; ++h) {
++            const int64_t head = kv_head * GROUP + h;
++            q_to_vec_dot(reinterpret_cast<const float *>(static_cast<const char *>(q->data) + head * q->nb[2]), Q_q[h], D);
++            maximum[h] = -INFINITY;
++            sum[h] = 0;
++        }
++        for (int64_t ic = 0; ic < k->ne[1]; ++ic) {
++            const float mv = mp ? GGML_CPU_FP16_TO_FP32(mp[ic]) : 0.f;
++            if (mv == -INFINITY) continue;
++            const auto * key = static_cast<const char *>(k->data) + ic * k->nb[1] + kv_head * k->nb[2];
++            const auto * value = static_cast<const char *>(v->data) + ic * v->nb[1] + kv_head * v->nb[2];
++            v_to_float(value, V32, D);
++            for (int h = 0; h < GROUP; ++h) {
++                float s;
++                kq_vec_dot(D, &s, 0, key, 0, Q_q[h], 0, 1);
++                s = s * scale;
++                s += mv;
++                const float previous = maximum[h];
++                float ms = 1.f, vs = 1.f;
++                if (s > maximum[h]) {
++                    maximum[h] = s;
++                    ms = expf(previous - maximum[h]);
++                    ggml_vec_scale_f32(D, accum[h], ms);
++                } else {
++                    vs = expf(s - maximum[h]);
++                }
++                ggml_vec_mad_f32(D, accum[h], V32, vs);
++                sum[h] = sum[h] * ms + vs;
++            }
++        }
++        for (int h = 0; h < GROUP; ++h) {
++            const int64_t head = kv_head * GROUP + h;
++            if (sinks) {
++                const float s = static_cast<const float *>(sinks->data)[head];
++                float ms = 1.f, vs = 1.f;
++                if (s > maximum[h]) {
++                    ms = expf(maximum[h] - s);
++                    maximum[h] = s;
++                    ggml_vec_scale_f32(D, accum[h], ms);
++                } else {
++                    vs = expf(s - maximum[h]);
++                }
++                sum[h] = sum[h] * ms + vs;
++            }
++            ggml_vec_scale_f32(D, accum[h], sum[h] == 0.f ? 0.f : 1.f / sum[h]);
++            memcpy(static_cast<char *>(dst->data) + head * dst->nb[1], accum[h], D * sizeof(float));
++        }
++    }
++}
++
+ static void ggml_compute_forward_flash_attn_ext_f16(
+         const ggml_compute_params * params,
+         ggml_tensor * dst) {
+@@ -9581,6 +9658,35 @@ static void ggml_compute_forward_flash_attn_ext_f16(
+     // When use_ref is set, force the vec-only reference implementation (no tiling, no KV-chunking)
+     const bool use_ref = params->use_ref;
+ 
++    const ggml_tensor * mask = dst->src[3];
++    const bool use_qwen_q4 = !use_ref && neq0 == 256 && neq1 == 1 && neq2 == 24 && neq3 == 1 &&
++            nek0 == 256 && nek1 >= 512 && nek2 == 4 && nek3 == 1 &&
++            nev0 == 256 && nev1 == nek1 && nev2 == 4 && nev3 == 1 &&
++            q->type == GGML_TYPE_F32 && k->type == GGML_TYPE_Q4_0 && v->type == GGML_TYPE_Q4_0 &&
++            nbq0 == sizeof(float) && nbk0 == ggml_type_size(k->type) && nbv0 == ggml_type_size(v->type) &&
++            dst->op_params[1] == 0 && dst->op_params[2] == 0 &&
++            (!mask || (mask->type == GGML_TYPE_F16 && mask->ne[1] >= 1 && mask->ne[2] == 1 && mask->ne[3] == 1));
++    static const bool trace = [] {
++        const char * setting = std::getenv("GGML_Q4_GQA_TRACE");
++        return setting && strcmp(setting, "1") == 0;
++    }();
++    static std::atomic_flag traced = ATOMIC_FLAG_INIT;
++    if (trace && !use_ref && neq1 == 1 && nek1 >= 512 && ith == 0 && !traced.test_and_set()) {
++        std::fprintf(stderr,
++            "GGML_Q4_GQA_TRACE selected=%d q=[%lld,%lld,%lld,%lld] k=[%lld,%lld,%lld,%lld] v=[%lld,%lld,%lld,%lld] types=[%d,%d,%d] mask=[%lld,%lld,%lld,%lld] strides0=[%zu,%zu,%zu] bias_bits=%d softcap_bits=%d threads=%d\n",
++            int(use_qwen_q4), (long long)neq0, (long long)neq1, (long long)neq2, (long long)neq3,
++            (long long)nek0, (long long)nek1, (long long)nek2, (long long)nek3,
++            (long long)nev0, (long long)nev1, (long long)nev2, (long long)nev3,
++            int(q->type), int(k->type), int(v->type), mask ? (long long)mask->ne[0] : 0,
++            mask ? (long long)mask->ne[1] : 0, mask ? (long long)mask->ne[2] : 0,
++            mask ? (long long)mask->ne[3] : 0, nbq0, nbk0, nbv0,
++            dst->op_params[1], dst->op_params[2], nth);
++    }
++    if (use_qwen_q4) {
++        ggml_compute_forward_flash_attn_ext_q4_qwen(params, dst);
++        return;
++    }
++
+     const bool kv_is_f32_or_f16 = (k->type == GGML_TYPE_F32 || k->type == GGML_TYPE_F16);
+     const bool use_split_kv_path = !use_ref && (neq1 == 1 && neq3 == 1) && kv_is_f32_or_f16 && (k->type == v->type) && q->type == GGML_TYPE_F32 && nek1 >= 512;
+ 

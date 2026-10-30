@@ -1,0 +1,20 @@
+{
+  "id": "llama-cpp",
+  "upstream_url": "https://github.com/ggml-org/llama.cpp.git",
+  "revision": "6050b467c07a95c7b87debd4ddac2f8ba8d9b807",
+  "patches": [
+    {
+      "path": "patches/q4-grouped-decode.patch",
+      "sha256": "27947dbff581c43b8bb01b2b01396686f7b2eb79b92692d624315e904fc3c115"
+    }
+  ],
+  "patch_target_allowlist": [
+    "ggml/src/ggml-cpu/ops.cpp"
+  ],
+  "capabilities": [
+    "EXPERIMENTAL CPU q4_0 grouped-query attention for one query, 24 query heads, four KV heads, head dimension 256.",
+    "Reuses K rows and V dequantization while retaining each query online-softmax order; other shapes keep the original route.",
+    "Unpromoted: CPU one-layer results do not establish an attributable end-to-end model speedup."
+  ],
+  "weight_files_modified": false
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "local-llm-engine-reference-v1",
+  "hardware": "single NVIDIA RTX 5090",
+  "measurement_date_utc": "2026-10-30",
+  "whole_stack_reference_only": true,
+  "attributable_patch_bundle_speedup": false,
+  "llm": {
+    "family": "27B Qwen-family checkpoint, supplied pre-quantized",
+    "context_configured_tokens": 98304,
+    "separate_retrieval_test_tokens": 90000,
+    "direct_code_api_tokens_per_second": 371.80,
+    "sdk_code_api_tokens_per_second": 310.84,
+    "sdk_full_invocation_tokens_per_second": 146.52,
+    "scope": "Single short-prompt code outputs; API and full-invocation clocks differ. Not a test at the full configured context."
+  },
+  "not_achieved": [
+    "1000 single-request generated tokens per second",
+    "qualified million-token coding context"
+  ],
+  "privacy": "Aggregate numerical observations only; no prompts, inputs, output media, user paths, session data or raw logs."
+}

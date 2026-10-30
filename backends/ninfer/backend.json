@@ -1,0 +1,24 @@
+{
+  "id": "ninfer",
+  "upstream_url": "https://github.com/iamwavecut/ninfer-all.git",
+  "revision": "33163f05fb54459c19e2574607f5d252f4be2ba4",
+  "patches": [
+    {
+      "path": "patches/dense-bf16-gather.patch",
+      "sha256": "1292559d04eacf671800d263e026b7fd4e1f2a1ed42675231dd606dd75a84256"
+    }
+  ],
+  "patch_target_allowlist": [
+    "src/ops/kernel/embed_gather.cuh",
+    "src/ops/launcher/embed_gather.cu",
+    "tests/ops/test_embedding.cpp",
+    "tests/ops/tests.cmake",
+    "tests/ops/embedding_dense_sweep.cu"
+  ],
+  "capabilities": [
+    "NInfer dense BF16 embedding gather; width 5120, aligned buffers, token batch 32 through 128.",
+    "Raw BF16 bits are copied without conversion; other shapes use the existing fallback.",
+    "CUDA source build required; measurements are RTX 5090 gather microbenchmarks, not whole-model throughput."
+  ],
+  "weight_files_modified": false
+}
