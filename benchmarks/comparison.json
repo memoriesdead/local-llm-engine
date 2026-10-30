@@ -1,0 +1,1311 @@
+{
+  "schema": "local-llm-engine-comparison-v1",
+  "checked_on": "2026-10-30",
+  "coverage": {
+    "local_runtime_projects": 24,
+    "application_frontend_projects": 4,
+    "hosted_providers": 5,
+    "hosted_provider_model_rows": 10,
+    "unique_primary_source_urls": 60,
+    "matched_external_benchmark_runs": 0,
+    "additional_source_projects": 25
+  },
+  "method": [
+    "Selected current primary project/provider pages were read; this is documented coverage, not every local fork or every available model.",
+    "Not measured here means no matching run was performed for this comparison; it does not mean the project has no published benchmarks.",
+    "Publisher-reported measurements are not independently reproduced. Unknown conditions remain null.",
+    "Decode, full request, SDK, first-token wait, prefill and aggregate throughput are different clocks.",
+    "Different models, tokenizers, quantization, hardware, context, sampling, speculation and concurrency prevent a speed or quality ranking.",
+    "Frontier-model capability and coding accuracy were not compared. Hosted model listings are context, not a local hardware comparison.",
+    "QUASAR is an artifact/checkpoint lineage here, not a separately counted runtime. NInfer upstream and its WaveCut fork are separately identified source projects.",
+    "The additional source index contains forks, recipes, methods, kernel libraries and specialized source projects. Public repository metadata/link checks do not establish independent engine performance, compatibility or quality."
+  ],
+  "our_reference": {
+    "name": "Local LLM Engine development stack",
+    "source_url": "https://github.com/memoriesdead/local-llm-engine/blob/main/benchmarks/reference.json",
+    "local_source": "reference.json",
+    "claim_kind": "our_historical_measured",
+    "checked_on": "2026-10-30",
+    "hardware": "one RTX 5090",
+    "model": "27B Qwen-family checkpoint, supplied pre-quantized",
+    "concurrency": 1,
+    "input_scope": "short code request; exact raw input is intentionally not distributed",
+    "configured_context_tokens": 98304,
+    "separate_actual_retrieval_input_tokens": 90000,
+    "metrics": [
+      {
+        "metric": "Claude Code SDK API portion",
+        "tokens_per_second": 310.84,
+        "timing": "SDK API portion; excludes complete fresh invocation"
+      },
+      {
+        "metric": "Complete Claude Code invocation",
+        "tokens_per_second": 146.52,
+        "timing": "Whole fresh invocation"
+      },
+      {
+        "metric": "Direct code API request",
+        "tokens_per_second": 371.8,
+        "timing": "Request wall clock including API overhead"
+      }
+    ],
+    "attributable_patch_bundle_gain": false,
+    "fresh_public_release_gpu_test": false
+  },
+  "local_runtimes": [
+    {
+      "name": "vLLM",
+      "primary_url": "https://docs.vllm.ai/en/latest/",
+      "focus": "General serving runtime",
+      "display_result": "Not measured here",
+      "conditions_summary": "No matched run in this comparison.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "SGLang",
+      "primary_url": "https://github.com/sgl-project/sglang",
+      "focus": "Language-model and multimodal serving",
+      "display_result": "Not measured here",
+      "conditions_summary": "No matched run in this comparison.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "TensorRT-LLM",
+      "primary_url": "https://github.com/NVIDIA/TensorRT-LLM",
+      "focus": "NVIDIA inference runtimes and kernels",
+      "display_result": "Not measured here",
+      "conditions_summary": "No matched run in this comparison.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "llama.cpp",
+      "primary_url": "https://github.com/ggml-org/llama.cpp",
+      "focus": "C/C++ inference across hardware backends",
+      "display_result": "Not measured here",
+      "conditions_summary": "No matched run in this comparison.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "NInfer upstream",
+      "primary_url": "https://github.com/Neroued/ninfer",
+      "focus": "Specialized C++/CUDA engine",
+      "display_result": "147.7 single decode; 922.4 at eight requests",
+      "conditions_summary": "RTX 5090; Qwen3.8-27B NVFP4, FP8 row-256 KV, MTP3, CUDA graphs; 8,192 generated tokens per request; steady decode, not full-request wall time.",
+      "metrics": [
+        {
+          "value": 147.7,
+          "unit": "tokens/s",
+          "metric": "steady_single_request_decode",
+          "conditions": {
+            "hardware": "one RTX 5090",
+            "model": "Qwen3.8-27B NVFP4",
+            "kv": "FP8 E4M3 row-256",
+            "speculation": "MTP3",
+            "concurrency": 1,
+            "output_tokens_per_request": 8192,
+            "input_length": null,
+            "timing": "Committed tokens in complete steady decode intervals; CUDA graphs"
+          },
+          "checked_on": "2026-10-30",
+          "claim_kind": "publisher_reported"
+        },
+        {
+          "value": 922.4,
+          "unit": "tokens/s",
+          "metric": "aggregate_steady_decode",
+          "conditions": {
+            "hardware": "one RTX 5090",
+            "model": "Qwen3.8-27B NVFP4",
+            "kv": "FP8 E4M3 row-256",
+            "speculation": "MTP3",
+            "concurrency": 8,
+            "output_tokens_per_request": 8192,
+            "input_length": null,
+            "timing": "Aggregate committed tokens where actual decode batch equals configured concurrency"
+          },
+          "checked_on": "2026-10-30",
+          "claim_kind": "publisher_reported"
+        }
+      ],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "publisher_reported",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "NInfer-all / WaveCut fork",
+      "primary_url": "https://github.com/iamwavecut/ninfer-all/blob/master/docs/performance.md",
+      "focus": "C++/CUDA fork used as this package's base",
+      "display_result": "233.5 short-chat decode",
+      "conditions_summary": "October 2026 publisher campaign: RTX 5090 600 W board, Qwen3.8 groupwise-int, rk8v4 KV, DFlash2 K7, build 796f98500 / CUDA 13.1; five 512-token short-chat answers, greedy, thinking off.",
+      "metrics": [
+        {
+          "value": 233.5,
+          "unit": "tokens/s",
+          "metric": "server_short_chat_mean_decode",
+          "conditions": {
+            "hardware": "one RTX 5090, 600 W board",
+            "model": "Qwen3.8-27B official groupwise-int artifact",
+            "kv": "rk8v4",
+            "speculation": "DFlash2 K7",
+            "concurrency": 1,
+            "output_tokens_per_request": 512,
+            "repetitions": 5,
+            "input_length": "short chat; exact token count not specified in summary",
+            "sampling": "greedy; thinking off",
+            "build": "796f98500; CUDA 13.1",
+            "measurement_period": "October 2026"
+          },
+          "checked_on": "2026-10-30",
+          "claim_kind": "publisher_reported"
+        }
+      ],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "publisher_reported",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "ExLlamaV3",
+      "primary_url": "https://github.com/turboderp-org/exllamav3",
+      "focus": "EXL3 quantized consumer-GPU inference",
+      "display_result": "Not measured here",
+      "conditions_summary": "No matched run in this comparison.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "LMDeploy",
+      "primary_url": "https://github.com/InternLM/lmdeploy",
+      "focus": "Compression, deployment and serving toolkit",
+      "display_result": "Not measured here",
+      "conditions_summary": "No matched run in this comparison.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "MLC-LLM",
+      "primary_url": "https://github.com/mlc-ai/mlc-llm",
+      "focus": "Compiled deployment engine",
+      "display_result": "Not measured here",
+      "conditions_summary": "No matched run in this comparison.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "MLX-LM",
+      "primary_url": "https://github.com/ml-explore/mlx-lm",
+      "focus": "Apple-silicon inference with MLX",
+      "display_result": "Not measured here",
+      "conditions_summary": "Different hardware platform; no matched run here.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "FastDeploy",
+      "primary_url": "https://github.com/PaddlePaddle/FastDeploy",
+      "focus": "PaddlePaddle-based LLM/VLM deployment",
+      "display_result": "Not measured here",
+      "conditions_summary": "No matched run in this comparison.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "Chitu",
+      "primary_url": "https://github.com/thu-pacman/chitu",
+      "focus": "Language-model inference framework",
+      "display_result": "Not measured here",
+      "conditions_summary": "No matched run in this comparison.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "Text Generation Inference (TGI)",
+      "primary_url": "https://github.com/huggingface/text-generation-inference",
+      "focus": "Text-generation server; repository says maintenance mode",
+      "display_result": "Not measured here",
+      "conditions_summary": "No matched run in this comparison.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "LightLLM",
+      "primary_url": "https://github.com/ModelTC/LightLLM",
+      "focus": "Python inference and serving framework",
+      "display_result": "Not measured here",
+      "conditions_summary": "No matched run in this comparison.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "KTransformers",
+      "primary_url": "https://github.com/kvcache-ai/ktransformers",
+      "focus": "Heterogeneous inference framework",
+      "display_result": "Not measured here",
+      "conditions_summary": "No matched run in this comparison.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "PowerInfer",
+      "primary_url": "https://github.com/Tiiny-AI/PowerInfer",
+      "focus": "Local model serving",
+      "display_result": "Not measured here",
+      "conditions_summary": "The former SJTU-IPADS repository redirects here; no matched run.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "Aphrodite / Sonar",
+      "primary_url": "https://github.com/dphnAI/sonar",
+      "focus": "Serving engine; former Aphrodite URL redirects here",
+      "display_result": "Not measured here",
+      "conditions_summary": "No matched run in this comparison.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "nano-vLLM",
+      "primary_url": "https://github.com/GeeeekExplorer/nano-vllm",
+      "focus": "Small inference-engine implementation",
+      "display_result": "1,434.13 aggregate",
+      "conditions_summary": "RTX 4070 Laptop 8 GB; Qwen3-0.6B; 256 total sequences, random 100\u20131,024-token inputs/outputs; 133,966 output tokens / 93.41 s. Request count is not stated concurrency.",
+      "metrics": [
+        {
+          "value": 1434.13,
+          "unit": "tokens/s",
+          "metric": "aggregate_output_throughput",
+          "conditions": {
+            "hardware": "RTX 4070 Laptop, 8 GB",
+            "model": "Qwen3-0.6B",
+            "total_requests": 256,
+            "concurrency": null,
+            "input_length_range": [
+              100,
+              1024
+            ],
+            "output_length_range": [
+              100,
+              1024
+            ],
+            "total_output_tokens": 133966,
+            "wall_seconds": 93.41,
+            "precision": null,
+            "sampling": null
+          },
+          "checked_on": "2026-10-30",
+          "claim_kind": "publisher_reported"
+        }
+      ],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "publisher_reported",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "mistral.rs",
+      "primary_url": "https://github.com/EricLBuehler/mistral.rs",
+      "focus": "Rust inference runtime",
+      "display_result": "Not measured here",
+      "conditions_summary": "No matched run in this comparison.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "DeepSpeed-MII",
+      "primary_url": "https://github.com/deepspeedai/DeepSpeed-MII",
+      "focus": "DeepSpeed-backed inference serving",
+      "display_result": "Not measured here",
+      "conditions_summary": "No matched run in this comparison.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "ExLlamaV2",
+      "primary_url": "https://github.com/turboderp-org/exllamav2",
+      "focus": "Consumer-GPU inference library",
+      "display_result": "Not measured here",
+      "conditions_summary": "No matched run in this comparison.",
+      "metrics": [],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "mkyt single-GPU engine",
+      "primary_url": "https://github.com/mkyt/qwen3-27b-5090/blob/main/docs/benchmarks.md",
+      "focus": "Specialized Qwen3.8-27B C++/CUDA engine",
+      "display_result": "386 code / 258 prose decode",
+      "conditions_summary": "RTX 5090 at 400 W; gdnfp4 weights, NVFP4 KV, DFlash2; median of three 1,024-token runs. Rate excludes first-token wait; temperature 1, top-k 20, top-p 0.95, thinking off.",
+      "metrics": [
+        {
+          "value": 386,
+          "unit": "tokens/s",
+          "metric": "single_request_code_decode",
+          "conditions": {
+            "hardware": "one RTX 5090, 32 GB, 400 W",
+            "model": "Qwen3.8-27B; gdnfp4 weights, selected attention projections FP8",
+            "kv": "NVFP4",
+            "speculation": "DFlash2",
+            "concurrency": 1,
+            "output_tokens": 1024,
+            "repetitions": 3,
+            "statistic": "median",
+            "input_length": "short; exact token count not specified in table",
+            "timing": "(output tokens - 1) / (last token time - first token time)",
+            "sampling": "temperature 1.0; top-k 20; top-p 0.95; thinking off",
+            "measurement_date": "2026-10-11",
+            "runtime": "WSL2; CUDA 13.3; driver 617.42"
+          },
+          "checked_on": "2026-10-30",
+          "claim_kind": "publisher_reported"
+        },
+        {
+          "value": 258,
+          "unit": "tokens/s",
+          "metric": "single_request_prose_decode",
+          "conditions": {
+            "same_conditions_as": "preceding code metric; prose workload"
+          },
+          "checked_on": "2026-10-30",
+          "claim_kind": "publisher_reported"
+        }
+      ],
+      "additional_sources": [
+        "https://github.com/mkyt/qwen3-27b-5090"
+      ],
+      "checked_on": "2026-10-30",
+      "claim_kind": "publisher_reported",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "Ignis",
+      "primary_url": "https://github.com/gpillon/ignis",
+      "focus": "Rust/CUDA single-GPU engine",
+      "display_result": "367 coding geometric mean",
+      "conditions_summary": "RTX 5090, Qwen3.8-27B NVFP4, hq-e8-2b KV, DFlash2 K7, greedy, short inputs; one lane, eight coding tasks; runs configured for 262,144 context, not that many actual input tokens.",
+      "metrics": [
+        {
+          "value": 367,
+          "unit": "tokens/s",
+          "metric": "coding_decode_geometric_mean",
+          "conditions": {
+            "hardware": "one RTX 5090",
+            "model": "Qwen3.8-27B NVFP4",
+            "kv": "hq-e8-2b",
+            "speculation": "DFlash2 K7",
+            "concurrency": 1,
+            "workloads": 8,
+            "statistic": "geometric mean",
+            "sampling": "greedy",
+            "input_length": "short; exact counts not provided in README table",
+            "configured_context": 262144,
+            "output_length": null,
+            "timing": "publisher decode benchmark; not our API clock"
+          },
+          "checked_on": "2026-10-30",
+          "claim_kind": "publisher_reported"
+        }
+      ],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "publisher_reported",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "Token Rush",
+      "primary_url": "https://github.com/zyhector/token-rush",
+      "focus": "Specialized single-stream engine",
+      "display_result": "358 code / 229 essay decode",
+      "conditions_summary": "One RTX 5090; Qwen3.8-27B text only, GPTQ int4 group-128 weights (4.25 bits/weight), in-graph DFlash2; batch one, short context, greedy. Different target representation.",
+      "metrics": [
+        {
+          "value": 358,
+          "unit": "tokens/s",
+          "metric": "single_request_code_decode",
+          "conditions": {
+            "hardware": "one RTX 5090",
+            "model": "Qwen3.8-27B text only",
+            "precision": "GPTQ int4 group 128; 4.25 bits per weight",
+            "speculation": "DFlash2 in-graph",
+            "concurrency": 1,
+            "input_length": "short; exact count not provided in summary",
+            "output_length": null,
+            "sampling": "greedy",
+            "timing": "publisher single-stream decode benchmark"
+          },
+          "checked_on": "2026-10-30",
+          "claim_kind": "publisher_reported"
+        },
+        {
+          "value": 229,
+          "unit": "tokens/s",
+          "metric": "single_request_essay_decode",
+          "conditions": {
+            "same_conditions_as": "preceding code metric; essay workload"
+          },
+          "checked_on": "2026-10-30",
+          "claim_kind": "publisher_reported"
+        }
+      ],
+      "additional_sources": [],
+      "checked_on": "2026-10-30",
+      "claim_kind": "publisher_reported",
+      "matched_to_our_run": false
+    }
+  ],
+  "applications_and_frontends": [
+    {
+      "name": "Ollama",
+      "primary_url": "https://docs.ollama.com/",
+      "scope": "Application, model management and API; local and cloud routes exist.",
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "display_result": "Not measured here",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "LM Studio",
+      "primary_url": "https://lmstudio.ai/docs/app/offline",
+      "scope": "Desktop app/local server; downloads and selects separately packaged runtimes.",
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "display_result": "Not measured here",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "Jan",
+      "primary_url": "https://github.com/janhq/jan",
+      "scope": "Desktop model application; backend/model choice determines generation speed.",
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "display_result": "Not measured here",
+      "matched_to_our_run": false
+    },
+    {
+      "name": "Open WebUI",
+      "primary_url": "https://github.com/open-webui/open-webui",
+      "scope": "Interface to inference backends; not a separate decode-kernel benchmark.",
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "display_result": "Not measured here",
+      "matched_to_our_run": false
+    }
+  ],
+  "hosted_models": [
+    {
+      "name": "OpenAI",
+      "model": "GPT-6 Astra / GPT-6.1 Sol",
+      "primary_url": "https://developers.openai.com/api/docs/models",
+      "display_result": "Not measured here",
+      "tokens_per_second": null,
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "metric": "no_numeric_speed_extracted",
+      "matched_to_our_run": false,
+      "conditions": {
+        "hardware": "Provider-managed service; deployment/chip count not specified in cited catalog",
+        "concurrency": null,
+        "input_length": null,
+        "output_length": null,
+        "sampling": null,
+        "precision": null,
+        "timing": "No fixed numeric output-speed benchmark extracted from cited model overview"
+      }
+    },
+    {
+      "name": "Anthropic",
+      "model": "Claude Fable 5.1 / Opus 5.5 / Sonnet 5.5",
+      "primary_url": "https://platform.claude.com/docs/en/models/overview",
+      "display_result": "Not measured here",
+      "tokens_per_second": null,
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "metric": "no_numeric_speed_extracted",
+      "matched_to_our_run": false,
+      "conditions": {
+        "hardware": "Provider-managed service; deployment/chip count not specified in cited catalog",
+        "concurrency": null,
+        "input_length": null,
+        "output_length": null,
+        "sampling": null,
+        "precision": null,
+        "timing": "No fixed numeric output-speed benchmark extracted from cited model overview"
+      }
+    },
+    {
+      "name": "Google",
+      "model": "Gemini 4 Argon / Gemini 3.8 Flash",
+      "primary_url": "https://ai.google.dev/gemini-api/docs/models",
+      "display_result": "Not measured here",
+      "tokens_per_second": null,
+      "checked_on": "2026-10-30",
+      "claim_kind": "documentation_only",
+      "metric": "no_numeric_speed_extracted",
+      "matched_to_our_run": false,
+      "conditions": {
+        "hardware": "Provider-managed service; deployment/chip count not specified in cited catalog",
+        "concurrency": null,
+        "input_length": null,
+        "output_length": null,
+        "sampling": null,
+        "precision": null,
+        "timing": "No fixed numeric output-speed benchmark extracted from cited model overview"
+      }
+    },
+    {
+      "name": "Cerebras",
+      "model": "Qwen 3.8 27B",
+      "primary_url": "https://inference-docs.cerebras.ai/models/overview",
+      "display_result": "~1,850 tokens/s, publisher catalog",
+      "tokens_per_second": 1850,
+      "checked_on": "2026-10-30",
+      "claim_kind": "publisher_reported",
+      "metric": "hosted_catalog_token_speed",
+      "matched_to_our_run": false,
+      "conditions": {
+        "hardware": "Provider-managed service; deployment/chip count not specified in cited catalog",
+        "concurrency": null,
+        "input_length": null,
+        "output_length": null,
+        "sampling": null,
+        "precision": null,
+        "timing": "No matched benchmark; catalog speed does not specify the complete measurement boundary"
+      }
+    },
+    {
+      "name": "Cerebras",
+      "model": "gpt-oss-120b",
+      "primary_url": "https://inference-docs.cerebras.ai/models/overview",
+      "display_result": "~3,000 tokens/s, publisher catalog",
+      "tokens_per_second": 3000,
+      "checked_on": "2026-10-30",
+      "claim_kind": "publisher_reported",
+      "metric": "hosted_catalog_token_speed",
+      "matched_to_our_run": false,
+      "conditions": {
+        "hardware": "Provider-managed service; deployment/chip count not specified in cited catalog",
+        "concurrency": null,
+        "input_length": null,
+        "output_length": null,
+        "sampling": null,
+        "precision": null,
+        "timing": "No matched benchmark; catalog speed does not specify the complete measurement boundary"
+      }
+    },
+    {
+      "name": "Groq",
+      "model": "qwen/qwen3.8-27b",
+      "primary_url": "https://console.groq.com/docs/models",
+      "display_result": "450 tokens/s, publisher catalog (preview)",
+      "tokens_per_second": 450,
+      "checked_on": "2026-10-30",
+      "claim_kind": "publisher_reported",
+      "metric": "hosted_catalog_token_speed",
+      "matched_to_our_run": false,
+      "conditions": {
+        "hardware": "Provider-managed service; deployment/chip count not specified in cited catalog",
+        "concurrency": null,
+        "input_length": null,
+        "output_length": null,
+        "sampling": null,
+        "precision": null,
+        "timing": "No matched benchmark; catalog speed does not specify the complete measurement boundary",
+        "context_window_tokens": 131072,
+        "max_completion_tokens": 16384
+      },
+      "availability": "preview"
+    },
+    {
+      "name": "Groq",
+      "model": "openai/gpt-oss-120b",
+      "primary_url": "https://console.groq.com/docs/models",
+      "display_result": "500 tokens/s, publisher catalog",
+      "tokens_per_second": 500,
+      "checked_on": "2026-10-30",
+      "claim_kind": "publisher_reported",
+      "metric": "hosted_catalog_token_speed",
+      "matched_to_our_run": false,
+      "conditions": {
+        "hardware": "Provider-managed service; deployment/chip count not specified in cited catalog",
+        "concurrency": null,
+        "input_length": null,
+        "output_length": null,
+        "sampling": null,
+        "precision": null,
+        "timing": "No matched benchmark; catalog speed does not specify the complete measurement boundary"
+      }
+    },
+    {
+      "name": "Groq",
+      "model": "openai/gpt-oss-20b",
+      "primary_url": "https://console.groq.com/docs/models",
+      "display_result": "1,000 tokens/s, publisher catalog",
+      "tokens_per_second": 1000,
+      "checked_on": "2026-10-30",
+      "claim_kind": "publisher_reported",
+      "metric": "hosted_catalog_token_speed",
+      "matched_to_our_run": false,
+      "conditions": {
+        "hardware": "Provider-managed service; deployment/chip count not specified in cited catalog",
+        "concurrency": null,
+        "input_length": null,
+        "output_length": null,
+        "sampling": null,
+        "precision": null,
+        "timing": "No matched benchmark; catalog speed does not specify the complete measurement boundary"
+      },
+      "availability": "production"
+    },
+    {
+      "name": "Groq",
+      "model": "llama-3.3-70b-versatile",
+      "primary_url": "https://console.groq.com/docs/models",
+      "display_result": "280 tokens/s, publisher catalog",
+      "tokens_per_second": 280,
+      "checked_on": "2026-10-30",
+      "claim_kind": "publisher_reported",
+      "metric": "hosted_catalog_token_speed",
+      "matched_to_our_run": false,
+      "conditions": {
+        "hardware": "Provider-managed service; deployment/chip count not specified in cited catalog",
+        "concurrency": null,
+        "input_length": null,
+        "output_length": null,
+        "sampling": null,
+        "precision": null,
+        "timing": "No matched benchmark; catalog speed does not specify the complete measurement boundary"
+      }
+    },
+    {
+      "name": "Groq",
+      "model": "llama-3.1-8b-instant",
+      "primary_url": "https://console.groq.com/docs/models",
+      "display_result": "560 tokens/s, publisher catalog",
+      "tokens_per_second": 560,
+      "checked_on": "2026-10-30",
+      "claim_kind": "publisher_reported",
+      "metric": "hosted_catalog_token_speed",
+      "matched_to_our_run": false,
+      "conditions": {
+        "hardware": "Provider-managed service; deployment/chip count not specified in cited catalog",
+        "concurrency": null,
+        "input_length": null,
+        "output_length": null,
+        "sampling": null,
+        "precision": null,
+        "timing": "No matched benchmark; catalog speed does not specify the complete measurement boundary"
+      }
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://ai.google.dev/gemini-api/docs/models",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://console.groq.com/docs/models",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/models",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://docs.ollama.com/",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://docs.vllm.ai/en/latest/",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/BigBIueWhale/qwen_38_agent_setup",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/EricLBuehler/mistral.rs",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/FasterDecoding/Medusa",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/GeeeekExplorer/nano-vllm",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/Intelligent-Internet/Qwen3.8-Inference-MetaZenith",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/InternLM/lmdeploy",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/LukasParke/qwen38-27b-5090",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/ModelTC/LightLLM",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/NVIDIA/TensorRT-Edge-LLM",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/NVIDIA/TensorRT-LLM",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/Neroued/ninfer",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/PaddlePaddle/FastDeploy",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/Ryan-gsq/ninfer-16g-5070ti-5080-5090-qwen3.8-27b-gsq-rco",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/SafeAILab/EAGLE",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/Tiiny-AI/PowerInfer",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/Wallawalla47/Infernix",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/adrienbrault/qwen3.8-27b-rtx5090",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/alphastorm/ninfer",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/deepspeedai/DeepSpeed-MII",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/dphnAI/sonar",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/flashinfer-ai/flashinfer",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/flashrt-project/FlashRT",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/ggml-org/llama.cpp",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/gpillon/ignis",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/hao-ai-lab/LookaheadDecoding",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/huggingface/text-generation-inference",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/iamwavecut/ninfer-all/blob/master/docs/performance.md",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/janhq/jan",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/kacper-daftcode/qwentin",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/kekzl/imp",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/kurmetov/qwencore",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/kvcache-ai/ktransformers",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/memoriesdead/local-llm-engine/blob/main/benchmarks/reference.json",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/mit-han-lab/Quest",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/mkyt/qwen3-27b-5090",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/mkyt/qwen3-27b-5090/blob/main/docs/benchmarks.md",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/ml-explore/mlx-lm",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/mlc-ai/mlc-llm",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/open-webui/open-webui",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/r0b0tlab/qwen38-exl3-dflash2",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/sgl-project/sglang",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/splickz/ninfer-yarn-nvfp4",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/thomgardiner/sglang-sm120-nvfp4",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/thu-pacman/chitu",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/tsarihan/qwen3.8-27b-rtx5090-playbook",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/turboderp-org/exllamav2",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/turboderp-org/exllamav3",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/varjoranta/turboquant-vllm",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/wamansou/ninfer-tp2-1m",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/z-lab/dflash",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/zhongkaifu/TensorSharp",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://github.com/zyhector/token-rush",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://inference-docs.cerebras.ai/models/overview",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://lmstudio.ai/docs/app/offline",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/models/overview",
+      "checked_on": "2026-10-30",
+      "type": "primary"
+    }
+  ],
+  "additional_reviewed_sources": [
+    {
+      "name": "zhongkaifu/TensorSharp",
+      "primary_url": "https://github.com/zhongkaifu/TensorSharp",
+      "source_type": "Specialized runtime/source project",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "wamansou/ninfer-tp2-1m",
+      "primary_url": "https://github.com/wamansou/ninfer-tp2-1m",
+      "source_type": "Specialized runtime/source project",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "kacper-daftcode/qwentin",
+      "primary_url": "https://github.com/kacper-daftcode/qwentin",
+      "source_type": "Specialized runtime/source project",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "kekzl/imp",
+      "primary_url": "https://github.com/kekzl/imp",
+      "source_type": "Specialized runtime/source project",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "flashinfer-ai/flashinfer",
+      "primary_url": "https://github.com/flashinfer-ai/flashinfer",
+      "source_type": "Kernel library",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "z-lab/dflash",
+      "primary_url": "https://github.com/z-lab/dflash",
+      "source_type": "Speculative-decoding method",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "SafeAILab/EAGLE",
+      "primary_url": "https://github.com/SafeAILab/EAGLE",
+      "source_type": "Speculative-decoding method",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "FasterDecoding/Medusa",
+      "primary_url": "https://github.com/FasterDecoding/Medusa",
+      "source_type": "Speculative-decoding method",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "hao-ai-lab/LookaheadDecoding",
+      "primary_url": "https://github.com/hao-ai-lab/LookaheadDecoding",
+      "source_type": "Speculative-decoding method",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "mit-han-lab/Quest",
+      "primary_url": "https://github.com/mit-han-lab/Quest",
+      "source_type": "Long-context component/method",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "LukasParke/qwen38-27b-5090",
+      "primary_url": "https://github.com/LukasParke/qwen38-27b-5090",
+      "source_type": "Recipe/setup project",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "thomgardiner/sglang-sm120-nvfp4",
+      "primary_url": "https://github.com/thomgardiner/sglang-sm120-nvfp4",
+      "source_type": "Backend patch",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "flashrt-project/FlashRT",
+      "primary_url": "https://github.com/flashrt-project/FlashRT",
+      "source_type": "Specialized runtime/source project",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "Wallawalla47/Infernix",
+      "primary_url": "https://github.com/Wallawalla47/Infernix",
+      "source_type": "Specialized runtime/source project",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "Ryan-gsq/ninfer-16g-5070ti-5080-5090-qwen3.8-27b-gsq-rco",
+      "primary_url": "https://github.com/Ryan-gsq/ninfer-16g-5070ti-5080-5090-qwen3.8-27b-gsq-rco",
+      "source_type": "Backend fork",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "adrienbrault/qwen3.8-27b-rtx5090",
+      "primary_url": "https://github.com/adrienbrault/qwen3.8-27b-rtx5090",
+      "source_type": "Multiple-GPU recipe",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "splickz/ninfer-yarn-nvfp4",
+      "primary_url": "https://github.com/splickz/ninfer-yarn-nvfp4",
+      "source_type": "Long-context recipe",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "varjoranta/turboquant-vllm",
+      "primary_url": "https://github.com/varjoranta/turboquant-vllm",
+      "source_type": "Long-context component/method",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "BigBIueWhale/qwen_38_agent_setup",
+      "primary_url": "https://github.com/BigBIueWhale/qwen_38_agent_setup",
+      "source_type": "Long-context recipe",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "tsarihan/qwen3.8-27b-rtx5090-playbook",
+      "primary_url": "https://github.com/tsarihan/qwen3.8-27b-rtx5090-playbook",
+      "source_type": "Recipe/setup project",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "alphastorm/ninfer",
+      "primary_url": "https://github.com/alphastorm/ninfer",
+      "source_type": "Backend fork",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "kurmetov/qwencore",
+      "primary_url": "https://github.com/kurmetov/qwencore",
+      "source_type": "Specialized runtime/source project",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "r0b0tlab/qwen38-exl3-dflash2",
+      "primary_url": "https://github.com/r0b0tlab/qwen38-exl3-dflash2",
+      "source_type": "Recipe/setup project",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "NVIDIA/TensorRT-Edge-LLM",
+      "primary_url": "https://github.com/NVIDIA/TensorRT-Edge-LLM",
+      "source_type": "Edge inference project",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    },
+    {
+      "name": "Intelligent-Internet/Qwen3.8-Inference-MetaZenith",
+      "primary_url": "https://github.com/Intelligent-Internet/Qwen3.8-Inference-MetaZenith",
+      "source_type": "Backend patch",
+      "checked_on": "2026-10-30",
+      "claim_kind": "public_source_link_only",
+      "matched_to_our_run": false,
+      "display_result": "Not measured here",
+      "verification_scope": "Public repository metadata/link checked; not a new inference benchmark or full source audit."
+    }
+  ]
+}

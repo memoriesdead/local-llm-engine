@@ -15,6 +15,9 @@ These are saved whole-stack results. This public source package has not had a
 fresh GPU test, and those numbers do not measure the speedup from its patches.
 The short-prompt speeds were not measured at the full configured context.
 
+[Compare with frontier services and local engines](benchmarks/comparison.md)
+or read the [benchmark method](benchmarks/protocol.md).
+
 The package contains two engine patches. Model weight files stay unchanged.
 
 | Backend | Patch |

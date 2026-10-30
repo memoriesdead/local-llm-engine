@@ -23,8 +23,8 @@
     },
     {
       "path": "README.md",
-      "size": 2271,
-      "sha256": "e0b24f5908dce7f03542ab8a25f26d98a9fe21e704f3acd56fa2576f6f4f736a"
+      "size": 2405,
+      "sha256": "26949b4cca767e650a003b349127ae7ab17974e1e6de89307e3dfc7bbc7fa83e"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -82,6 +82,21 @@
       "sha256": "1292559d04eacf671800d263e026b7fd4e1f2a1ed42675231dd606dd75a84256"
     },
     {
+      "path": "benchmarks/comparison.json",
+      "size": 48663,
+      "sha256": "bb0ede7555b9746645eda7edbbc9027ca3d155f19f24f0c06fcca2e7d33169bf"
+    },
+    {
+      "path": "benchmarks/comparison.md",
+      "size": 14108,
+      "sha256": "8b18ad5454ee32cfbe43de94068da4dd975b3d5c4163e5c587f6fa409e809261"
+    },
+    {
+      "path": "benchmarks/protocol.md",
+      "size": 2326,
+      "sha256": "dcdc67ebd0b8b8c58cffbfa3a2063cdad0d9f153ed8c3adaf63b1646d7e48e3d"
+    },
+    {
       "path": "benchmarks/reference.json",
       "size": 912,
       "sha256": "538afa1aa5163744baff926b27e45b0f212d2309f755ef3a05207e16f69cca76"
@@ -93,13 +108,13 @@
     },
     {
       "path": "tests/test_release_gate.py",
-      "size": 12872,
-      "sha256": "9332d4a6e5f18fc3bf7f8b2e600119fd67f2411a3129ae5c3c2488ddb6389ec0"
+      "size": 22082,
+      "sha256": "b6e37e86a0847c1e3f4ba15d601a20345914194ba22728e57c2066db076ad22f"
     },
     {
       "path": "tools/check_release.py",
-      "size": 16473,
-      "sha256": "8dc7525ac84a3651a29b7ffec75adf198f8b352ec5b3a4324eb0e5cfd410aca7"
+      "size": 23746,
+      "sha256": "2f35de6e0ff64ffe38814e3693f040271b8f49fc0cff534c68f83d8c36aa4e02"
     },
     {
       "path": "tools/engine.py",
