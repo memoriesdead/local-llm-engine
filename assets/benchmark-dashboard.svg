@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="dashboard-title dashboard-desc">
+  <title id="dashboard-title">Local LLM Engine saved benchmark dashboard</title>
+  <desc id="dashboard-desc">One RTX 5090 and a Qwen-family 27B model, one request at a time. Claude Code SDK API portion: 310.84 tokens per second. Full Claude Code invocation: 146.52 tokens per second. Direct API request: 371.80 tokens per second. Configured context: 98,304 tokens. Separate retrieval check: 90,000 actual input tokens. Speed used short code prompts. These are historical whole-stack results; no attributable patch gain established and no fresh public-export GPU benchmark.</desc>
+  <rect width="1200" height="620" rx="22" fill="#0b1020"/>
+  <rect x="44" y="35" width="34" height="4" rx="2" fill="#63e3ee"/>
+  <g font-family="Segoe UI, system-ui, sans-serif">
+    <text x="91" y="44" fill="#63e3ee" font-size="17" font-weight="700" letter-spacing="3">LOCAL LLM ENGINE</text>
+    <text x="44" y="109" fill="#eef4ff" font-size="43" font-weight="700" letter-spacing="-1">Fast code. Local inference.</text>
+    <text x="44" y="151" fill="#a7b4cc" font-size="21">Saved Qwen-family 27B reference on one RTX 5090.</text>
+    <g fill="none" stroke="#63e3ee" stroke-width="2">
+      <rect x="1044" y="62" width="75" height="75" rx="14"/>
+      <rect x="1061" y="79" width="41" height="41" rx="6"/>
+      <path d="M1058 48V62 M1082 48V62 M1106 48V62 M1058 137V151 M1082 137V151 M1106 137V151 M1030 76H1044 M1030 100H1044 M1030 124H1044 M1119 76H1133 M1119 100H1133 M1119 124H1133"/>
+    </g>
+    <circle cx="1082" cy="100" r="7" fill="#63e3ee"/>
+    <line x1="44" y1="180" x2="1156" y2="180" stroke="#263650" stroke-width="1"/>
+    <text x="44" y="212" fill="#a7b4cc" font-size="16" font-weight="600" letter-spacing="2">ONE REQUEST AT A TIME / THREE DIFFERENT CLOCKS</text>
+
+    <rect x="44" y="234" width="352" height="160" rx="14" fill="#141e33" stroke="#63e3ee" stroke-width="1.5"/>
+    <rect x="424" y="234" width="352" height="160" rx="14" fill="#141e33" stroke="#263650" stroke-width="1"/>
+    <rect x="804" y="234" width="352" height="160" rx="14" fill="#141e33" stroke="#263650" stroke-width="1"/>
+    <text x="66" y="269" fill="#eef4ff" font-size="20" font-weight="600">Claude Code SDK API</text>
+    <text x="446" y="269" fill="#eef4ff" font-size="20" font-weight="600">Full Claude Code invocation</text>
+    <text x="826" y="269" fill="#eef4ff" font-size="20" font-weight="600">Direct code API request</text>
+    <text x="64" y="331" fill="#63e3ee" font-size="54" font-weight="700" letter-spacing="-2">310.84</text>
+    <text x="444" y="331" fill="#eef4ff" font-size="54" font-weight="700" letter-spacing="-2">146.52</text>
+    <text x="824" y="331" fill="#eef4ff" font-size="54" font-weight="700" letter-spacing="-2">371.80</text>
+    <text x="66" y="369" fill="#a7b4cc" font-size="18">tokens/s · API portion only</text>
+    <text x="446" y="369" fill="#a7b4cc" font-size="18">tokens/s · whole fresh invocation</text>
+    <text x="826" y="369" fill="#a7b4cc" font-size="18">tokens/s · request wall time</text>
+
+    <rect x="44" y="418" width="542" height="88" rx="14" fill="#141e33"/>
+    <rect x="614" y="418" width="542" height="88" rx="14" fill="#141e33"/>
+    <text x="66" y="473" fill="#eef4ff" font-size="32" font-weight="700" letter-spacing="-1">98,304</text>
+    <text x="217" y="458" fill="#eef4ff" font-size="19" font-weight="600">Configured context</text>
+    <text x="217" y="484" fill="#a7b4cc" font-size="17">tokens, separate from speed input</text>
+    <text x="636" y="473" fill="#eef4ff" font-size="32" font-weight="700" letter-spacing="-1">90,000</text>
+    <text x="787" y="458" fill="#eef4ff" font-size="19" font-weight="600">Separate retrieval check</text>
+    <text x="787" y="484" fill="#a7b4cc" font-size="17">actual input tokens</text>
+
+    <text x="44" y="549" fill="#a7b4cc" font-size="18">Speed used short code prompts. Context and retrieval were separate checks.</text>
+    <text x="44" y="580" fill="#a7b4cc" font-size="18">Historical whole-stack results. No patch gain established. No fresh public-export GPU benchmark.</text>
+  </g>
+</svg>

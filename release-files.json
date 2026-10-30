@@ -23,13 +23,18 @@
     },
     {
       "path": "README.md",
-      "size": 2405,
-      "sha256": "26949b4cca767e650a003b349127ae7ab17974e1e6de89307e3dfc7bbc7fa83e"
+      "size": 7085,
+      "sha256": "8cfbac44d072979a72baadc1309df20376ea974429a9980833b9fd3807bbc343"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
       "size": 806,
       "sha256": "844e8258d33b138c182bac77522e382e2f70e6792bc5f22d4d2cb0502cd133be"
+    },
+    {
+      "path": "assets/benchmark-dashboard.svg",
+      "size": 4226,
+      "sha256": "bc528169af4a1d6f2f3da050f072b1d03c4a9f0e97f9011d8537b50754d90d7e"
     },
     {
       "path": "backends/llama-cpp/LICENSE",
@@ -113,8 +118,8 @@
     },
     {
       "path": "tools/check_release.py",
-      "size": 23746,
-      "sha256": "2f35de6e0ff64ffe38814e3693f040271b8f49fc0cff534c68f83d8c36aa4e02"
+      "size": 23754,
+      "sha256": "61c4a4cc86c5743a91798dbc6ba9eebd7ebac0ba791b2f68e70841534af4c32b"
     },
     {
       "path": "tools/engine.py",
